@@ -6,15 +6,19 @@ import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import resume from './resources/resume_liam_vrchat.pdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import { useDrag } from '@use-gesture/react'
+import { useDrag, useHover } from '@use-gesture/react'
 import DesktopItem from './components/desktop-item/DesktopItem';
 
 function App() {
 
+  const [clicked, setClicked] = useState("")
+
   const [{ x, y}, dragApi] = useSpring(() => ({ x: 0, y: 0}))
   const [{opacity, scale}, clickApi] = useSpring(() => ({opacity: 0, scale: 0.01}))
+  const [{backgroundColor}, hoverLogOutApi] = useSpring(() => ({backgroundColor: 'rgb(117, 145, 145, 0)'}))
 
-  const bind = useDrag(({ offset: [mx, my] }) => {
+  const bindHover = useHover(({ hovering }) => hoverLogOutApi.start({backgroundColor: hovering ? 'rgb(117, 145, 145, 1)' : 'rgb(117, 145, 145, 0)'}))
+  const bindDrag = useDrag(({ offset: [mx, my] }) => {
     dragApi.start({x: mx, y: my})
   })
 
@@ -28,7 +32,7 @@ function App() {
     }
   }
 
-  const [clicked, setClicked] = useState("")
+  const sendMessageToUnity = () => window.parent.postMessage({ type: 'vuplex.postMessage', message: 'logout' });
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -48,7 +52,7 @@ function App() {
       <DesktopItem onClick={() => handleClick("hotdog")} name="not_taco.png" clicked={(clicked == "hotdog")}>
           <HotDogIcon />
       </DesktopItem>
-      <animated.div className="draggable" {...bind()} style={{ x, y, opacity, scale }}>
+      <animated.div className="draggable" {...bindDrag()} style={{ x, y, opacity, scale }}>
         <div onClick={(event) => openLinkInNewTab(event)}>
           {(clicked == "resume") ?
             <Document file={resume}>
@@ -60,6 +64,10 @@ function App() {
           </div>
           }
         </div>
+      </animated.div>
+      <animated.div {...bindHover()} onClick={() => sendMessageToUnity()} 
+        style={{position: "absolute", bottom: "5vh", right: "5vw", borderRadius: "5px", border: "2px solid #759191", padding: "1rem", backgroundColor}}>
+          Log Out
       </animated.div>
     </div>
   );

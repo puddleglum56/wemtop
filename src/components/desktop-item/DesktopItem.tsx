@@ -22,7 +22,7 @@ function DesktopIcon(props: DesktopIconProps) {
         {/*
         // @ts-ignore */}
         <animated.div onMouseEnter={trigger} style={style} className="icon-container">
-          <div style={{height: "20vh", minWidth: "7vw"}}>
+          <div style={{minWidth: "8vw"}}>
             {props.children}
           </div>
         </animated.div>
