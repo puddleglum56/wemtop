@@ -2,7 +2,7 @@ import {ReactComponent as ResumeIcon} from './resources/resume_icon.svg'
 import {animated, useSpring} from 'react-spring'
 import './App.css';
 import useBoop from './boop';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import resume from './resources/resume_liam_vrchat.pdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
@@ -27,16 +27,6 @@ function App() {
     setContainerClicked(!containerClicked)
     clickApi.start({opacity: containerClicked ? 0 : 1, scale: containerClicked ? 0.01 : 1})
   }
-
-  const [height, setHeight] = useState(window.innerHeight);
-  const updateDimensions = () => {
-      setHeight(window.innerHeight);
-  }
-
-  useEffect(() => {
-      window.addEventListener("resize", updateDimensions);
-      return () => window.removeEventListener("resize", updateDimensions);
-  }, []);
 
   const [containerHovered, setContainerHovered] = useState(false)
   const [containerClicked, setContainerClicked] = useState(false)
@@ -72,9 +62,9 @@ function App() {
           </Document>
         </div>
       </animated.div>
-      <animated.div {...bindHover()} onClick={() => sendMessageToUnity()} 
+      <animated.div {...bindHover()}  
         style={{position: "absolute", bottom: "30px", right: "30px", borderRadius: "5px", border: "2px solid #759191", padding: "1rem", backgroundColor}}>
-          Log Out
+          "Esc" to log out
       </animated.div>
     </div>
   );
