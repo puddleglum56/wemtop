@@ -1,39 +1,34 @@
 import {ReactComponent as ResumeIcon} from './resources/resume_icon.svg'
+import {ReactComponent as HotDogIcon} from './resources/hotdog_icon.svg'
 import {animated, useSpring} from 'react-spring'
 import './App.css';
-import useBoop from './boop';
 import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import resume from './resources/resume_liam_vrchat.pdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import { useDrag, useHover } from '@use-gesture/react'
+import { useDrag } from '@use-gesture/react'
+import DesktopItem from './components/desktop-item/DesktopItem';
 
 function App() {
 
-  //@ts-ignore
-  const sendMessageToUnity = () => window.vuplex.postMessage({ type: 'command', message: 'logout' });
-
   const [{ x, y}, dragApi] = useSpring(() => ({ x: 0, y: 0}))
   const [{opacity, scale}, clickApi] = useSpring(() => ({opacity: 0, scale: 0.01}))
-  const [{backgroundColor}, hoverLogOutApi] = useSpring(() => ({backgroundColor: 'rgb(117, 145, 145, 0)'}))
-
-  const bindHover = useHover(({ hovering }) => hoverLogOutApi.start({backgroundColor: hovering ? 'rgb(117, 145, 145, 1)' : 'rgb(117, 145, 145, 0)'}))
 
   const bind = useDrag(({ offset: [mx, my] }) => {
     dragApi.start({x: mx, y: my})
   })
 
-  const handleContainerClick = () => {
-    setContainerClicked(!containerClicked)
-    clickApi.start({opacity: containerClicked ? 0 : 1, scale: containerClicked ? 0.01 : 1})
+  const handleClick = (item : string) => {
+    if (clicked == item) {
+      setClicked("")
+      clickApi.start({opacity: 0, scale: 0.01})
+    } else {
+      setClicked(item)
+      clickApi.start({opacity: 1, scale: 1})
+    }
   }
 
-  const [containerHovered, setContainerHovered] = useState(false)
-  const [containerClicked, setContainerClicked] = useState(false)
-
-  const [style, trigger] = useBoop({ y: 2 });
-
-  const containerProps = useSpring({backgroundColor: containerClicked ? 'rgb(121, 182, 220, 1)' : (containerHovered ? 'rgb(121, 182, 220, 0.5)' : 'rgb(121, 182, 220, 0)')})
+  const [clicked, setClicked] = useState("")
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -47,24 +42,24 @@ function App() {
 
   return (
     <div className="app">
-      <animated.div style={containerProps} onClick={() => handleContainerClick()} onMouseEnter={() => setContainerHovered(true)} onMouseLeave={() => setContainerHovered(false)} className="resume-icon-container" >
-        {/*
-        // @ts-ignore */}
-        <animated.div onMouseEnter={trigger} style={style} className="resume-icon-container">
-          <ResumeIcon style={{height: "20vh"}} />
-        </animated.div>
-        <span>resume</span>
-      </animated.div>
+      <DesktopItem onClick={() => handleClick("resume")} name="resume" clicked={(clicked == "resume")}>
+          <ResumeIcon />
+      </DesktopItem>
+      <DesktopItem onClick={() => handleClick("hotdog")} name="not_taco.png" clicked={(clicked == "hotdog")}>
+          <HotDogIcon />
+      </DesktopItem>
       <animated.div className="draggable" {...bind()} style={{ x, y, opacity, scale }}>
         <div onClick={(event) => openLinkInNewTab(event)}>
-          <Document file={resume}>
-            <Page className="resume" pageNumber={1} />
-          </Document>
+          {(clicked == "resume") ?
+            <Document file={resume}>
+              <Page className="resume" pageNumber={1} />
+            </Document>
+          : 
+          <div style={{height: "50vh", minWidth: "20vw"}}>
+            <HotDogIcon />
+          </div>
+          }
         </div>
-      </animated.div>
-      <animated.div {...bindHover()}  
-        style={{position: "absolute", bottom: "30px", right: "30px", borderRadius: "5px", border: "2px solid #759191", padding: "1rem", backgroundColor}}>
-          "Esc" to log out
       </animated.div>
     </div>
   );
