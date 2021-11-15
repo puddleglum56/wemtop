@@ -32,7 +32,8 @@ function App() {
     }
   }
 
-  const sendMessageToUnity = () => window.parent.postMessage({ type: 'vuplex.postMessage', message: 'logout' }, '*');
+  // @ts-ignore
+  const sendMessageToUnity = () => window.vuplex.postMessage({ type: 'vuplex.postMessage', message: 'logout' });
 
   pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
