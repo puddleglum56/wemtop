@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/wemtop/static/css/main.bb3d194f.chunk.css",
-    "main.js": "/wemtop/static/js/main.02d9474c.chunk.js",
-    "main.js.map": "/wemtop/static/js/main.02d9474c.chunk.js.map",
+    "main.js": "/wemtop/static/js/main.a12febec.chunk.js",
+    "main.js.map": "/wemtop/static/js/main.a12febec.chunk.js.map",
     "runtime-main.js": "/wemtop/static/js/runtime-main.71dc1915.js",
     "runtime-main.js.map": "/wemtop/static/js/runtime-main.71dc1915.js.map",
     "static/css/2.075d1af1.chunk.css": "/wemtop/static/css/2.075d1af1.chunk.css",
@@ -22,6 +22,6 @@
     "static/css/2.075d1af1.chunk.css",
     "static/js/2.5e0e6fab.chunk.js",
     "static/css/main.bb3d194f.chunk.css",
-    "static/js/main.02d9474c.chunk.js"
+    "static/js/main.a12febec.chunk.js"
   ]
 }
