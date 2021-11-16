@@ -47,7 +47,7 @@ function App() {
 
   return (
     <div className="app">
-      <DesktopItem onClick={() => handleClick("resume")} name="resume" clicked={(clicked == "resume")}>
+      <DesktopItem onClick={() => handleClick("resume")} name="resume.pdf" clicked={(clicked == "resume")}>
           <ResumeIcon />
       </DesktopItem>
       <DesktopItem onClick={() => handleClick("hotdog")} name="not_taco.png" clicked={(clicked == "hotdog")}>
