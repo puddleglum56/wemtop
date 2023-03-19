@@ -4,7 +4,7 @@ import {animated, useSpring} from 'react-spring'
 import './App.css';
 import { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
-import resume from './resources/resume_liam_vrchat.pdf'
+import resume from './resources/resume_liam_mcfadden.pdf'
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { useDrag, useHover } from '@use-gesture/react'
 import DesktopItem from './components/desktop-item/DesktopItem';
